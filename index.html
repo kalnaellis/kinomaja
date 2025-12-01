@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>KINO MĀJA · Venture Space by RIJA FILMS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body {
+      height:100%;
+      overflow-x:hidden;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#f5f5f5;
+      background:#050509;
+    }
+    canvas#webgl {
+      position:fixed; inset:0;
+      width:100%; height:100%;
+      display:block; z-index:0;
+    }
+    .overlay-ui{
+      position:fixed; top:0; left:0; width:100%;
+      padding:1.2rem 2rem;
+      display:flex; justify-content:space-between; align-items:center;
+      z-index:3; pointer-events:none; mix-blend-mode:screen;
+    }
+    .logo-block{pointer-events:auto;}
+    .logo-main{font-size:1.1rem; letter-spacing:.24em; text-transform:uppercase; opacity:.9;}
+    .logo-sub{font-size:.7rem; opacity:.7; text-transform:uppercase; letter-spacing:.2em;}
+    .nav-links{display:flex; gap:1.4rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.16em; opacity:.8;}
+    .nav-links a{color:inherit; text-decoration:none; position:relative; pointer-events:auto;}
+    .nav-links a::after{content:""; position:absolute; left:0; bottom:-.2rem; width:0; height:1px; background:#fff; opacity:.7; transition:width .25s ease;}
+    .nav-links a:hover::after{width:100%;}
+    .help-text{
+      position:fixed; right:1.5rem; bottom:1.5rem; z-index:3;
+      font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; opacity:.7;
+      padding:.5rem .8rem; border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      backdrop-filter:blur(12px); background:rgba(5,5,10,.7);
+      pointer-events:none;
+    }
+    .scroll-container{position:relative; z-index:2;}
+    section.panel{
+      min-height:100vh; display:flex; align-items:center;
+      padding:6rem 6vw; pointer-events:none; position:relative; color:#f7f7ff;
+    }
+    section.panel>.content{max-width:640px; pointer-events:auto;}
+    section.panel.hero{align-items:flex-end; padding-bottom:14vh;}
+    .kicker{font-size:.75rem; letter-spacing:.24em; text-transform:uppercase; margin-bottom:.7rem; opacity:.7;}
+    h1,h2{font-weight:600; letter-spacing:.06em; text-transform:uppercase;}
+    h1{font-size:clamp(2.6rem,4.8vw,3.4rem); line-height:1.05; margin-bottom:1.1rem;}
+    h2{font-size:clamp(1.4rem,2.4vw,2rem); margin-bottom:.8rem;}
+    .hero-tagline{font-size:.95rem; max-width:30rem; opacity:.9; margin-bottom:1.5rem;}
+    p.body{font-size:.9rem; line-height:1.6; opacity:.85;}
+    .badge{display:inline-flex; align-items:center; gap:.4rem; padding:.3rem .7rem;
+      border-radius:999px; border:1px solid rgba(255,255,255,.2);
+      font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; opacity:.85; margin-bottom:1rem;}
+    .grid{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:3rem;}
+    .pill-list{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1.2rem;}
+    .pill{border-radius:999px; padding:.3rem .7rem; border:1px solid rgba(255,255,255,.2);
+      font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; opacity:.8;}
+    .footer{padding:3rem 6vw 2rem; font-size:.75rem; opacity:.6; display:flex; justify-content:space-between; gap:1rem;}
+    .footer a{color:inherit; text-decoration:none;}
+    @media (max-width:800px){
+      .overlay-ui{padding-inline:1.2rem;}
+      section.panel{padding-inline:1.5rem;}
+      .grid{grid-template-columns:minmax(0,1fr);}
+      .nav-links{display:none;}
+      .help-text{left:50%; transform:translateX(-50%); right:auto;}
+      .footer{flex-direction:column;}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="webgl"></canvas>
+
+  <div class="overlay-ui">
+    <div class="logo-block">
+      <div class="logo-main">KINO MĀJA</div>
+      <div class="logo-sub">Venture Space · by Rija Films</div>
+    </div>
+    <nav class="nav-links">
+      <a href="#panel-animation">Animation Lab</a>
+      <a href="#panel-film">Film & Performance</a>
+      <a href="#panel-residency">Residency</a>
+      <a href="#panel-legacy">30 Years</a>
+    </nav>
+  </div>
+
+  <div class="help-text">Scroll to travel · WASD to explore</div>
+
+  <div class="scroll-container">
+    <section class="panel hero" id="panel-hero">
+      <div class="content">
+        <div class="badge">Everything is possible</div>
+        <div class="kicker">Kino māja venture</div>
+        <h1>Immersive playground for animation, film & performance.</h1>
+        <p class="hero-tagline">
+          A living lab where projects grow from sketch to screen.
+          A subsidiary adventure of <strong>Rija Films</strong>, dedicated to
+          the next 30 years of storytelling experiments.
+        </p>
+        <p class="body">
+          The space is a hybrid: production studio, residency, and
+          performance arena wrapped into one responsive environment.
+          What happens here leaks into cinemas, festivals and streets.
+        </p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-animation">
+      <div class="content grid">
+        <div>
+          <div class="kicker">Room 01 · Animation Lab</div>
+          <h2>From sketchbook noise to moving worlds.</h2>
+          <p class="body">
+            Traditional drawing, hybrid pipelines, AI-assisted weirdness.
+            Sessions for directors, animators and students who want to
+            bend form instead of imitate it.
+          </p>
+          <div class="pill-list">
+            <span class="pill">Story prototyping</span>
+            <span class="pill">VR pre-viz</span>
+            <span class="pill">Analogue + digital</span>
+            <span class="pill">Work-in-progress screenings</span>
+          </div>
+        </div>
+        <div>
+          <p class="body">
+            We treat each project as a research question:
+            <em>What can this story do that live-action can’t?</em>
+            The lab is built for testing answers quickly, on a big screen,
+            with real audiences.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-film">
+      <div class="content grid">
+        <div>
+          <div class="kicker">Room 02 · Film & Performance</div>
+          <h2>Stage, camera, and audience in the same breath.</h2>
+          <p class="body">
+            A flexible black-box cinema for live performance, film shoots,
+            and hybrid events. Directors can treat the space as a character:
+            re-light it, re-map it, or stream directly from it.
+          </p>
+        </div>
+        <div>
+          <p class="body">
+            Host an 8-at-the-table reading, a durational performance,
+            or a premiere that mutates into a party.
+            The room listens, records and replies.
+          </p>
+          <div class="pill-list">
+            <span class="pill">Multi-camera capture</span>
+            <span class="pill">Live sound</span>
+            <span class="pill">Audience data tags</span>
+            <span class="pill">Hybrid events 3+2+1</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-residency">
+      <div class="content grid">
+        <div>
+          <div class="kicker">Room 03 · Residency</div>
+          <h2>Apply for residency. Bring unfinished chaos.</h2>
+          <p class="body">
+            KINO MĀJA is a temporary home for directors, animators,
+            performers, and writers who need a concentrated sprint on
+            a project. No “open offices”, no polite networking. Just work.
+          </p>
+        </div>
+        <div>
+          <p class="body">
+            Residents get access to the stage, cinema, recording setups
+            and mentorship from the extended Rija Films family.
+            Deliverable: a testable piece of work, not a “concept PDF”.
+          </p>
+          <div class="pill-list">
+            <span class="pill">1–4 week stays</span>
+            <span class="pill">Production support</span>
+            <span class="pill">Feedback screenings</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-legacy">
+      <div class="content">
+        <div class="kicker">Rija Films · 30 years</div>
+        <h2>Three decades of animation. One new experiment hub.</h2>
+        <p class="body">
+          Rija Films started in 1995 with <em>Kiriku et la Sorcière</em>
+          and grew into a studio whose films travelled festivals and
+          living rooms across the planet. KINO MĀJA extends that line:
+          a venture space where mistakes are allowed and risks expected.
+        </p>
+        <p class="body" style="margin-top:1rem;">
+          KINO MĀJA connects with the wider ecosystem:
+          <strong>kalnaellis.com</strong>, <strong>rijafilms.com</strong>,
+          and the more unhinged cousin <strong>kartupelis.tv</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>© <span id="year"></span> KINO MĀJA · Rija Films venture. Storytelling experiments in Riga, Latvia.</div>
+      <div>Controls: scroll to move through rooms · WASD to roam the space.</div>
+    </div>
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    gsap.registerPlugin(ScrollTrigger);
+
+    const canvas = document.getElementById("webgl");
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x050509);
+
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 1.7, 6);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Lights
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambient);
+
+    const spot = new THREE.SpotLight(0xffffff, 1.4, 40, Math.PI/4, 0.4);
+    spot.position.set(0, 6, 3);
+    spot.target.position.set(0, 3, -8);
+    scene.add(spot);
+    scene.add(spot.target);
+
+    const room = new THREE.Group();
+    scene.add(room);
+
+    const roomLength = 16;
+    const roomWidth = 9;
+
+    // Floor
+    const floorGeo = new THREE.PlaneGeometry(roomWidth, roomLength);
+    const floorMat = new THREE.MeshStandardMaterial({ color:0x26252a, roughness:0.85, metalness:0.1 });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI/2;
+    floor.position.z = -3;
+    room.add(floor);
+
+    // Walls
+    const wallMat = new THREE.MeshStandardMaterial({ color:0x141319, roughness:0.9, metalness:0.05 });
+    const sideWallGeo = new THREE.PlaneGeometry(roomLength, 4.5);
+    const leftWall = new THREE.Mesh(sideWallGeo, wallMat);
+    leftWall.position.set(-roomWidth/2, 2.25, -3);
+    leftWall.rotation.y = Math.PI/2;
+    room.add(leftWall);
+    const rightWall = new THREE.Mesh(sideWallGeo, wallMat);
+    rightWall.position.set(roomWidth/2, 2.25, -3);
+    rightWall.rotation.y = -Math.PI/2;
+    room.add(rightWall);
+    const backWallGeo = new THREE.PlaneGeometry(roomWidth, 4.5);
+    const backWall = new THREE.Mesh(backWallGeo, wallMat);
+    backWall.position.set(0, 2.25, -11);
+    room.add(backWall);
+
+    // Screen
+    const screenGeo = new THREE.PlaneGeometry(6.5, 3.6);
+    const screenMat = new THREE.MeshStandardMaterial({
+      color:0xf5f5f5, emissive:0xffffff, emissiveIntensity:0.8, roughness:0.3, metalness:0.1
+    });
+    const screen = new THREE.Mesh(screenGeo, screenMat);
+    screen.position.set(0, 3.1, -10.99);
+    room.add(screen);
+
+    // Curtains
+    const curtainGeo = new THREE.PlaneGeometry(1.8, 4);
+    const curtainMat = new THREE.MeshStandardMaterial({ color:0x9b1015, roughness:0.75, metalness:0.15 });
+    const curtainLeft = new THREE.Mesh(curtainGeo, curtainMat);
+    curtainLeft.position.set(-3.9, 2.8, -10.9);
+    room.add(curtainLeft);
+    const curtainRight = new THREE.Mesh(curtainGeo, curtainMat);
+    curtainRight.position.set(3.9, 2.8, -10.9);
+    room.add(curtainRight);
+
+    // Beanbag helper
+    const beanbagGeo = new THREE.DodecahedronGeometry(0.55, 0);
+    function createBeanbag(color){
+      const m = new THREE.Mesh(beanbagGeo, new THREE.MeshStandardMaterial({
+        color, roughness:0.7, metalness:0.3
+      }));
+      m.scale.set(1.1, 0.7, 1.0);
+      return m;
+    }
+    const beanbagColors = [0xd53535, 0x111111, 0xd53535, 0x111111, 0xd53535];
+    function placeRow(z, offsetX){
+      const spacing = 1.1;
+      beanbagColors.forEach((c,i)=>{
+        const b = createBeanbag(c);
+        b.position.set((i-(beanbagColors.length-1)/2)*spacing+offsetX, 0.55, z);
+        room.add(b);
+      });
+    }
+    placeRow(-8.2, 0);
+    placeRow(-7.0, 0.3);
+    placeRow(-5.8, -0.2);
+    const sideLeft = createBeanbag(0x111111);
+    sideLeft.position.set(-3.2, 0.55, -3.2);
+    room.add(sideLeft);
+    const sideRight = createBeanbag(0x111111);
+    sideRight.position.set(3.2, 0.55, -3.2);
+    room.add(sideRight);
+
+    // Table
+    const tableTop = new THREE.Mesh(
+      new THREE.BoxGeometry(3.8, 0.07, 1.7),
+      new THREE.MeshStandardMaterial({ color:0xf3f1e9, roughness:0.6, metalness:0.05 })
+    );
+    tableTop.position.set(0, 0.82, -2.3);
+    room.add(tableTop);
+    const legGeo = new THREE.BoxGeometry(0.07, 0.8, 0.07);
+    const legMat = new THREE.MeshStandardMaterial({ color:0x111111, roughness:0.8, metalness:0.1 });
+    [[-1.8,-1.1], [1.8,-1.1], [-1.8,-2.9], [1.8,-2.9]].forEach(([x,z])=>{
+      const leg = new THREE.Mesh(legGeo, legMat);
+      leg.position.set(x, 0.4, z);
+      room.add(leg);
+    });
+    const strip = new THREE.Mesh(
+      new THREE.BoxGeometry(3.2, 0.04, 0.12),
+      new THREE.MeshStandardMaterial({ color:0xea5b2a, roughness:0.5, metalness:0.2 })
+    );
+    strip.position.set(0, 0.86, -2.3);
+    room.add(strip);
+
+    const ceilingLight = new THREE.PointLight(0xffaa88, 0.35, 25);
+    ceilingLight.position.set(0, 5.2, -7.5);
+    room.add(ceilingLight);
+
+    // Camera target & scroll sections
+    const cameraTarget = new THREE.Vector3(0, 2.5, -9);
+    const sections = [
+      { id:"#panel-hero",      cam:{x:0,y:1.7,z:6},   look:{x:0,y:2.5,z:-9} },
+      { id:"#panel-animation", cam:{x:-2.5,y:1.8,z:4}, look:{x:-1,y:2.4,z:-7.5} },
+      { id:"#panel-film",      cam:{x:2.5,y:1.8,z:4},  look:{x:1,y:2.4,z:-7.5} },
+      { id:"#panel-residency", cam:{x:0,y:2.4,z:3},    look:{x:0,y:2.4,z:-6.5} },
+      { id:"#panel-legacy",    cam:{x:0,y:2.1,z:7},    look:{x:0,y:2.5,z:-8} }
+    ];
+    sections.forEach(s=>{
+      const tl = gsap.timeline({
+        scrollTrigger:{
+          trigger:s.id, start:"top center", end:"bottom center", scrub:true
+        }
+      });
+      tl.to(camera.position, { x:s.cam.x,y:s.cam.y,z:s.cam.z, ease:"none" }, 0);
+      tl.to(cameraTarget,  { x:s.look.x,y:s.look.y,z:s.look.z, ease:"none" }, 0);
+    });
+
+    // Beanbag breathing
+    const beanbags = [];
+    room.traverse(o=>{ if(o.geometry === beanbagGeo) beanbags.push(o); });
+
+    // WASD
+    const keys = {KeyW:false,KeyA:false,KeyS:false,KeyD:false};
+    window.addEventListener("keydown",e=>{ if(keys.hasOwnProperty(e.code)) keys[e.code]=true; });
+    window.addEventListener("keyup",e=>{ if(keys.hasOwnProperty(e.code)) keys[e.code]=false; });
+    const moveSpeed = 0.04;
+    function handleWASD(){
+      const dir = new THREE.Vector3();
+      camera.getWorldDirection(dir);
+      dir.y = 0; dir.normalize();
+      const right = new THREE.Vector3();
+      right.crossVectors(dir, camera.up).normalize();
+      let moved=false;
+      if(keys.KeyW){ camera.position.addScaledVector(dir,moveSpeed); cameraTarget.addScaledVector(dir,moveSpeed); moved=true; }
+      if(keys.KeyS){ camera.position.addScaledVector(dir,-moveSpeed); cameraTarget.addScaledVector(dir,-moveSpeed); moved=true; }
+      if(keys.KeyA){ camera.position.addScaledVector(right,-moveSpeed); cameraTarget.addScaledVector(right,-moveSpeed); moved=true; }
+      if(keys.KeyD){ camera.position.addScaledVector(right,moveSpeed); cameraTarget.addScaledVector(right,moveSpeed); moved=true; }
+      if(moved){
+        const xLimit = roomWidth/2.2, zMin=-11.5, zMax=3;
+        camera.position.x = THREE.MathUtils.clamp(camera.position.x,-xLimit,xLimit);
+        camera.position.z = THREE.MathUtils.clamp(camera.position.z,zMin,zMax);
+      }
+    }
+
+    const clock = new THREE.Clock();
+    function animate(){
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      beanbags.forEach((b,i)=>{ b.position.y = 0.52 + Math.sin(t*1.5 + i*0.7)*0.03; });
+      handleWASD();
+      camera.lookAt(cameraTarget);
+      renderer.render(scene,camera);
+    }
+    animate();
+
+    window.addEventListener("resize", ()=>{
+      const w=window.innerWidth,h=window.innerHeight;
+      camera.aspect=w/h; camera.updateProjectionMatrix();
+      renderer.setSize(w,h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    });
+  </script>
+</body>
+</html>
