@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RIJA FILMS • Happy New Year 2026</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #151530 0, #050510 55%, #000 100%);
+      color: #fff;
+    }
+
+    canvas#webgl {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ui {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      pointer-events: auto;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.4);
+      white-space: nowrap;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    nav button {
+      pointer-events: auto;
+      border: none;
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    nav button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    nav button.active {
+      background: linear-gradient(90deg, #ffcc66, #ff6699);
+      color: #120816;
+      box-shadow: 0 0 20px rgba(255, 204, 102, 0.7);
+    }
+
+    .message-wrapper {
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 3vh;
+    }
+
+    .message-card {
+      max-width: 720px;
+      width: 100%;
+      padding: 1.2rem 1.4rem;
+      border-radius: 1.25rem;
+      background: radial-gradient(circle at top left,
+                  rgba(255, 204, 102, 0.35),
+                  rgba(0, 0, 0, 0.75));
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      pointer-events: auto;
+    }
+
+    .message-card h1 {
+      font-size: clamp(1.3rem, 4vw, 1.9rem);
+      margin-bottom: 0.4rem;
+    }
+
+    .message-card h2 {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      margin-bottom: 0.3rem;
+      opacity: 0.9;
+    }
+
+    .message-card p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin-bottom: 0.4rem;
+    }
+
+    .message-card strong {
+      font-weight: 600;
+    }
+
+    .section {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.4s ease, max-height 0.4s ease;
+    }
+
+    .section-active {
+      opacity: 1;
+      max-height: 400px;
+    }
+
+    .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-label {
+      opacity: 0.8;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.7rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-value a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .contact-value a:hover {
+      border-bottom-color: rgba(255, 255, 255, 1);
+    }
+
+    @media (max-width: 640px) {
+      .ui {
+        padding: 0.75rem;
+      }
+
+      .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .message-card {
+        padding: 1rem 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="webgl"></canvas>
+
+  <div class="ui">
+    <header class="top-bar">
+      <div class="logo">RIJA FILMS</div>
+      <nav>
+        <button data-section="home" class="active">Greeting</button>
+        <button data-section="thelma">Thelma’s Journey</button>
+        <button data-section="contact">Contacts</button>
+      </nav>
+    </header>
+
+    <footer class="message-wrapper">
+      <div class="message-card">
+        <!-- HOME -->
+        <section class="section section-home section-active">
+          <h1>Merry Christmas &amp; Happy New Year 2026!</h1>
+          <h2>From the world of <strong>Thelma’s Perfect Birthday</strong></h2>
+          <p>
+            We wish you a year of bold stories, kind heroes and a little bit of
+            cinematic magic in everyday life.
+          </p>
+          <p>
+            Thank you to all partners, audiences and friends who helped Thelma
+            travel from Riga to the world’s screens. See you in the next scene.
+          </p>
+        </section>
+
+        <!-- THELMA / SUCCESS -->
+        <section class="section section-thelma">
+          <h1>Thelma’s Perfect Birthday keeps celebrating</h1>
+          <p>
+            Our feature film continues its journey across cinemas and festivals,
+            bringing Baltic humour and hand-crafted animation to families
+            everywhere.
+          </p>
+          <p>
+            In 2026 we keep expanding Thelma’s universe with new screenings,
+            educational events and interactive experiences – including this
+            tiny WebGL cinema in your browser.
+          </p>
+        </section>
+
+        <!-- CONTACTS -->
+        <section class="section section-contact">
+          <h1>Let’s create something in 2026</h1>
+          <p>
+            For co-productions, festival invites, distribution or workshops,
+            reach out to the RIJA FILMS team.
+          </p>
+
+          <div class="contact-grid">
+            <div class="contact-item">
+              <span class="contact-label">Studio</span>
+              <span class="contact-value">
+                RIJA FILMS, Mēness iela 4, Rīga, Latvia
+              </span>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">
+                <a href="mailto:info@rijafilms.com">info@rijafilms.com</a>
+              </span>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Website</span>
+              <span class="contact-value">
+                <a href="https://www.rijafilms.com" target="_blank" rel="noreferrer">
+                  rijafilms.com
+                </a>
+              </span>
+            </div>
+
+            <div class="contact-item">
+              <span class="contact-label">Social</span>
+              <span class="contact-value">
+                <a href="https://www.youtube.com/@rijafilms" target="_blank" rel="noreferrer">
+                  YouTube / RIJA FILMS
+                </a>
+              </span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </footer>
+  </div>
+
+  <!-- GSAP for smooth transitions -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+  <!-- three.js (ES module) -->
+  <script type="module">
+    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+    import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+    const canvas = document.getElementById("webgl");
+    const scene = new THREE.Scene();
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100
+    );
+    camera.position.set(0, 1.4, 6);
+    scene.add(camera);
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    // Controls (mouse + touch)
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.target.set(0, 1.2, 0);
+    controls.maxDistance = 9;
+    controls.minDistance = 3;
+    controls.maxPolarAngle = Math.PI * 0.6;
+
+    // Simple hemisphere light + warm key light
+    const hemi = new THREE.HemisphereLight(0xffe6c5, 0x111322, 0.6);
+    scene.add(hemi);
+
+    const keyLight = new THREE.DirectionalLight(0xfff0c0, 1.0);
+    keyLight.position.set(2, 4, 3);
+    scene.add(keyLight);
+
+    // Ground (soft plane to catch shadows visually)
+    const groundGeo = new THREE.CircleGeometry(10, 64);
+    const groundMat = new THREE.MeshStandardMaterial({
+      color: 0x141420,
+      metalness: 0.1,
+      roughness: 0.9,
+    });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.01;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // New Year screen with your image
+    const textureLoader = new THREE.TextureLoader();
+    // TODO: replace this path with your real image file.
+    const cardTexture = textureLoader.load("./textures/rija_ny2026.jpg");
+
+    cardTexture.colorSpace = THREE.SRGBColorSpace;
+
+    const aspect = 16 / 9;
+    const width = 5.8;
+    const height = width / aspect;
+
+    const screenGeo = new THREE.PlaneGeometry(width, height);
+    const screenMat = new THREE.MeshStandardMaterial({
+      map: cardTexture,
+      emissive: new THREE.Color(0xffcc88),
+      emissiveIntensity: 0.2,
+    });
+    const screen = new THREE.Mesh(screenGeo, screenMat);
+    screen.position.set(0, 1.8, 0);
+    scene.add(screen);
+
+    // Add subtle glowing frame around the screen
+    const frameGeo = new THREE.PlaneGeometry(width * 1.05, height * 1.08);
+    const frameMat = new THREE.MeshBasicMaterial({
+      color: 0xffe9b8,
+      transparent: true,
+      opacity: 0.18,
+    });
+    const frame = new THREE.Mesh(frameGeo, frameMat);
+    frame.position.copy(screen.position);
+    frame.position.z -= 0.01;
+    scene.add(frame);
+
+    // Floating "firework sparks" particles
+    const sparkCount = 300;
+    const sparkPositions = new Float32Array(sparkCount * 3);
+    const sparkSizes = new Float32Array(sparkCount);
+
+    for (let i = 0; i < sparkCount; i++) {
+      const radius = 4 + Math.random() * 4;
+      const angle = Math.random() * Math.PI * 2;
+      const heightRand = 2.5 + Math.random() * 4;
+
+      sparkPositions[i * 3 + 0] = Math.cos(angle) * radius;
+      sparkPositions[i * 3 + 1] = heightRand;
+      sparkPositions[i * 3 + 2] = Math.sin(angle) * radius;
+
+      sparkSizes[i] = 0.04 + Math.random() * 0.06;
+    }
+
+    const sparkGeo = new THREE.BufferGeometry();
+    sparkGeo.setAttribute("position", new THREE.BufferAttribute(sparkPositions, 3));
+
+    const sparkMat = new THREE.PointsMaterial({
+      color: 0xffd6ff,
+      size: 0.07,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.9,
+    });
+
+    const sparks = new THREE.Points(sparkGeo, sparkMat);
+    scene.add(sparks);
+
+    // Section camera targets
+    const views = {
+      home: {
+        position: new THREE.Vector3(0, 1.5, 6),
+        target: new THREE.Vector3(0, 1.6, 0),
+      },
+      thelma: {
+        position: new THREE.Vector3(-2.4, 1.7, 5.5),
+        target: new THREE.Vector3(-0.4, 1.7, 0),
+      },
+      contact: {
+        position: new THREE.Vector3(2.4, 1.4, 5.5),
+        target: new THREE.Vector3(0.5, 1.7, 0),
+      },
+    };
+
+    // Helper to transition camera
+    function goToView(name) {
+      const v = views[name];
+      if (!v) return;
+
+      gsap.to(camera.position, {
+        duration: 1.4,
+        x: v.position.x,
+        y: v.position.y,
+        z: v.position.z,
+        ease: "power2.inOut",
+      });
+
+      gsap.to(controls.target, {
+        duration: 1.4,
+        x: v.target.x,
+        y: v.target.y,
+        z: v.target.z,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          controls.update();
+        },
+      });
+    }
+
+    // UI section switching
+    const navButtons = document.querySelectorAll("nav button");
+    const sections = document.querySelectorAll(".section");
+
+    function setSection(name) {
+      sections.forEach((sec) => {
+        const isActive = sec.classList.contains(`section-${name}`);
+        sec.classList.toggle("section-active", isActive);
+      });
+
+      navButtons.forEach((btn) => {
+        const isActive = btn.dataset.section === name;
+        btn.classList.toggle("active", isActive);
+      });
+    }
+
+    navButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const sectionName = btn.dataset.section;
+        setSection(sectionName);
+        goToView(sectionName);
+      });
+    });
+
+    // Resize handling
+    function onResize() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    }
+    window.addEventListener("resize", onResize);
+
+    // Animate
+    let startTime = performance.now();
+
+    function tick() {
+      const elapsed = (performance.now() - startTime) / 1000;
+
+      // subtle rotation of sparks
+      sparks.rotation.y = elapsed * 0.08;
+
+      // breathing glow on frame
+      const glow = 0.18 + Math.sin(elapsed * 2) * 0.05;
+      frame.material.opacity = glow;
+
+      controls.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(tick);
+    }
+
+    tick();
+  </script>
+</body>
+</html>
