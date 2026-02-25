@@ -6,7 +6,7 @@
   <title>Kartupelis TV · Filmmaker Portfolio</title>
   <style>
     :root {
-      --bg: #04020b;
+      --bg: #05030a;
       --paper: #0f0b1a;
       --panel: #171126;
       --ink: #f8f5ff;
@@ -14,7 +14,7 @@
       --neon: #00f0ff;
       --ember: #ff6a3d;
       --violet: #af71ff;
-      --line: rgba(255, 255, 255, 0.16);
+      --line: rgba(255, 255, 255, 0.15);
     }
 
     * { box-sizing: border-box; }
@@ -24,40 +24,20 @@
       font-family: "Inter", "Avenir Next", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       color: var(--ink);
       line-height: 1.55;
-      background: var(--bg);
-      overflow-x: hidden;
-    }
-
-    #webgl-noise {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.95;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.15), transparent 40%),
+        radial-gradient(circle at 90% 0%, rgba(255, 106, 61, 0.12), transparent 35%),
+        radial-gradient(circle at 50% 100%, rgba(175, 113, 255, 0.15), transparent 38%),
+        var(--bg);
     }
 
     .grain {
       pointer-events: none;
       position: fixed;
       inset: 0;
-      opacity: 0.14;
+      opacity: 0.12;
       background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
       mix-blend-mode: soft-light;
-      z-index: 2;
-    }
-
-    .cursor-distort {
-      position: fixed;
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      pointer-events: none;
-      border: 1px solid rgba(0, 240, 255, 0.35);
-      filter: blur(1px);
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.2), transparent 70%);
-      z-index: 4;
-      transform: translate(-50%, -50%);
-      mix-blend-mode: screen;
     }
 
     .wrap {
@@ -65,20 +45,14 @@
       margin: 0 auto;
       padding: 1.2rem;
       position: relative;
-      z-index: 3;
-    }
-
-    .hero,
-    .section,
-    .floating-stage {
-      border: 1px solid var(--line);
-      background: rgba(10, 8, 18, 0.72);
-      backdrop-filter: blur(10px);
+      z-index: 1;
     }
 
     .hero {
+      border: 1px solid var(--line);
       border-radius: 24px;
       padding: clamp(1.4rem, 3.6vw, 3rem);
+      background: linear-gradient(125deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
       position: relative;
       overflow: hidden;
     }
@@ -86,7 +60,7 @@
     .hero::after {
       content: "";
       position: absolute;
-      width: 300px;
+      width: 280px;
       aspect-ratio: 1;
       border-radius: 50%;
       right: -120px;
@@ -113,7 +87,7 @@
     }
 
     .lead {
-      max-width: 68ch;
+      max-width: 65ch;
       margin: 1rem 0 0;
       color: var(--muted);
     }
@@ -134,55 +108,6 @@
       background: rgba(255,255,255,0.03);
     }
 
-    .floating-stage {
-      margin-top: 1rem;
-      border-radius: 22px;
-      min-height: 430px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .floating-title {
-      margin: 0;
-      font-size: clamp(1.2rem, 2vw, 1.8rem);
-      padding: 1rem 1rem 0;
-    }
-
-    .floating-sub {
-      margin: 0.2rem 1rem 0.2rem;
-      color: var(--muted);
-      font-size: 0.9rem;
-      max-width: 70ch;
-    }
-
-    .media-orbit {
-      position: absolute;
-      width: min(320px, 44vw);
-      border: 1px solid rgba(255,255,255,0.22);
-      background: rgba(12, 8, 20, 0.78);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.35);
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    .media-orbit img,
-    .media-orbit iframe {
-      display: block;
-      width: 100%;
-      height: 180px;
-      border: 0;
-      object-fit: cover;
-    }
-
-    .media-orbit p {
-      margin: 0;
-      padding: 0.55rem 0.7rem 0.75rem;
-      color: var(--muted);
-      font-size: 0.78rem;
-    }
-
     .grid {
       margin-top: 1rem;
       display: grid;
@@ -191,7 +116,9 @@
     }
 
     .section {
+      border: 1px solid var(--line);
       border-radius: 18px;
+      background: var(--paper);
       padding: clamp(1rem, 2.6vw, 1.5rem);
     }
 
@@ -205,9 +132,22 @@
       color: var(--muted);
     }
 
-    .timeline { margin-top: 0.9rem; display: grid; gap: 0.7rem; }
-    .event { border-left: 2px solid var(--violet); padding-left: 0.7rem; }
-    .event p { margin: 0.15rem 0 0; color: var(--muted); font-size: 0.9rem; }
+    .timeline {
+      margin-top: 0.9rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .event {
+      border-left: 2px solid var(--violet);
+      padding-left: 0.7rem;
+    }
+
+    .event p {
+      margin: 0.15rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
 
     .label {
       color: var(--ember);
@@ -227,16 +167,14 @@
       color: var(--muted);
     }
 
-    .collection-grid,
     .photo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 0.7rem;
       margin-top: 0.9rem;
     }
 
-    figure,
-    .film-card {
+    figure {
       margin: 0;
       border-radius: 12px;
       overflow: hidden;
@@ -244,11 +182,53 @@
       background: var(--panel);
     }
 
-    figure img { display: block; width: 100%; height: 180px; object-fit: cover; filter: saturate(1.15) contrast(1.05); }
-    figcaption { padding: 0.6rem; font-size: 0.79rem; color: var(--muted); }
-    .film-card { padding: 0.8rem; }
-    .film-card h3 { margin: 0; font-size: 0.95rem; }
-    .film-card p { margin: 0.45rem 0 0; color: var(--muted); font-size: 0.84rem; }
+    figure img {
+      display: block;
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      filter: saturate(1.15) contrast(1.05);
+    }
+
+    figcaption {
+      padding: 0.6rem;
+      font-size: 0.79rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .video-card {
+      margin-top: 0.9rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .collection-grid {
+      margin-top: 0.9rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .film-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 0.8rem;
+    }
+
+    .film-card h3 {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .film-card p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
     .tag {
       display: inline-block;
       margin-top: 0.6rem;
@@ -261,6 +241,33 @@
       text-transform: uppercase;
     }
 
+    .video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+    }
+
+    .quote {
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      color: #efe8ff;
+      border-left: 3px solid var(--neon);
+      padding-left: 0.8rem;
+    }
+
+    .contact {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.4rem;
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--neon);
+      text-decoration: none;
+    }
+
     footer {
       margin: 1rem 0 1.4rem;
       color: var(--muted);
@@ -271,34 +278,21 @@
       flex-wrap: wrap;
     }
 
-    a { color: var(--neon); text-decoration: none; }
-
-
-    .reduced-motion .media-orbit {
-      transform: none !important;
-      animation: none !important;
-    }
-
     @media (max-width: 900px) {
       .grid { grid-template-columns: 1fr; }
-      .media-orbit { position: relative; width: 100%; top: auto !important; left: auto !important; margin: 0.6rem 0; }
-      .floating-stage { min-height: auto; padding-bottom: 0.8rem; }
     }
   </style>
 </head>
 <body>
-  <canvas id="webgl-noise"></canvas>
   <div class="grain" aria-hidden="true"></div>
-  <div class="cursor-distort" id="cursor-distort" aria-hidden="true"></div>
-
   <main class="wrap">
     <section class="hero">
       <p class="kicker">Director · Producer · Visual Alchemist</p>
       <h1>Festival Fire. Animation Pulse. Analogue Soul.</h1>
       <p class="lead">
-        Reinis Kalnaellis builds cinema where tactile emotion meets technical precision—moving through international
-        film festivals, producing animation and live-action projects, and shaping his visual language through
-        analogue Rolleiflex medium-format photography.
+        I build cinema that moves between hand-crafted texture and modern momentum—traveling through
+        international film festivals, directing animation and live-action work, and keeping my eye honest
+        through analogue photography on a Rolleiflex medium format camera.
       </p>
       <div class="chips">
         <span class="chip">Feature & short film production</span>
@@ -309,73 +303,137 @@
       </div>
     </section>
 
-    <section class="floating-stage" id="floating-stage">
-      <h2 class="floating-title">Interactive Moving Archive · WebGL + GSAP</h2>
-      <p class="floating-sub">Flying video and image fragments orbit in real time. Cursor movement drives distortion, creating a sketch-like noisy cinematic space.</p>
-      <article class="media-orbit" data-speed="0.06" style="left: 4%; top: 95px;">
-        <iframe loading="lazy" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Flying showreel fragment" allowfullscreen></iframe>
-        <p>Festival reel fragment · drifting playback frame.</p>
-      </article>
-      <article class="media-orbit" data-speed="0.11" style="left: 35%; top: 170px;">
-        <img src="custom/textures/rija_ny2026.jpg" alt="Flying analogue still" />
-        <p>Riga scouting still · analog mood plate.</p>
-      </article>
-      <article class="media-orbit" data-speed="0.08" style="left: 64%; top: 62px;">
-        <iframe loading="lazy" src="https://www.youtube.com/embed/xzB4mAq2f5Q" title="Animation teaser window" allowfullscreen></iframe>
-        <p>Animation teaser node · kinetic frame study.</p>
-      </article>
-      <article class="media-orbit" data-speed="0.05" style="left: 55%; top: 265px;">
-        <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000&q=80" alt="Flying festival audience still" />
-        <p>Cinema audience pulse · premiere atmosphere.</p>
-      </article>
-    </section>
-
     <div class="grid">
       <section class="section">
         <h2>Creative Manifesto</h2>
-        <p class="statement">My work lives where poetic documentary, kinetic fiction, and tactile animation intersect. Each production is designed to carry emotional clarity while remaining festival-ready in craft and strategy.</p>
+        <p class="statement">
+          My work sits where poetic documentary, kinetic fiction, and tactile animation intersect. I direct
+          projects with rigorous visual language, then produce them through to launch strategy—so every film
+          arrives with both emotional impact and festival-ready precision.
+        </p>
+        <p class="quote">
+          “I chase stories that feel alive in the frame: grain, breath, imperfection, movement. Cinema should
+          feel discovered, not manufactured.”
+        </p>
+
         <div class="timeline">
-          <div class="event"><span class="label">Direction & Development</span><p>Concept creation, script shaping, and visual language systems for authored stories.</p></div>
-          <div class="event"><span class="label">Festival Circuit</span><p>Active international screenings, talks, and project pitching across film culture networks.</p></div>
-          <div class="event"><span class="label">Animation & Film Production</span><p>Hybrid pipelines combining animation, live footage, VFX, and editorial rhythm.</p></div>
-          <div class="event"><span class="label">Analogue Practice</span><p>Rolleiflex medium-format studies to preserve texture, light behavior, and frame discipline.</p></div>
+          <div class="event">
+            <span class="label">Direction & Development</span>
+            <p>Concept creation, scripting, visual treatment design, and format experimentation for art-house and branded narratives.</p>
+          </div>
+          <div class="event">
+            <span class="label">Festival Circuit</span>
+            <p>Ongoing screenings, networking and project pitching across international festival environments.</p>
+          </div>
+          <div class="event">
+            <span class="label">Animation & Film Production</span>
+            <p>Hybrid pipelines blending animation, live footage, and post-production craft to build distinctive storytelling worlds.</p>
+          </div>
+          <div class="event">
+            <span class="label">Analogue Practice</span>
+            <p>Rolleiflex medium format photography for portrait studies, location research, and visual moodboards.</p>
+          </div>
         </div>
       </section>
 
       <section class="section">
         <h2>Festival Presence</h2>
-        <div class="festival-map">Current mode: traveling filmmaker. Every festival stop becomes a development lab for the next films, new collaborators, and stronger launch pathways.</div>
-        <div class="festival-map"><strong>Bookings & collaborations:</strong> <a href="mailto:hello@kartupelis.tv">hello@kartupelis.tv</a> · <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer">Vimeo</a></div>
+        <div class="festival-map">
+          Current mode: traveling filmmaker. From screenings to panel talks, I treat every festival stop as a
+          live laboratory—testing ideas, connecting collaborators, and developing the next slate while this one
+          is still on screen.
+        </div>
+        <div class="video-card">
+          <iframe
+            class="video"
+            src="https://www.youtube.com/embed/ScMzIvxBSi4"
+            title="Filmmaker showreel"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="contact">
+          <strong>Bookings & collaborations</strong>
+          <span><a href="mailto:hello@kartupelis.tv">hello@kartupelis.tv</a></span>
+          <span><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer">Vimeo</a></span>
+        </div>
       </section>
     </div>
 
     <section class="section" style="margin-top: 0.9rem;">
       <h2>About Reinis Kalnaellis</h2>
-      <p class="statement">Reinis Kalnaellis is a filmmaker and animation creator recognized for cinematic emotional precision, disciplined visual craft, and strong end-to-end execution. His content creation mastery comes from blending authored storytelling with producer-level strategy—from concept to audience impact.</p>
+      <p class="statement">
+        Reinis Kalnaellis is a filmmaker and animation creator recognized for combining cinematic emotion with
+        disciplined visual craftsmanship. His voice in content creation stands out through strong story rhythm,
+        carefully shaped atmosphere, and a producer's understanding of how to bring an idea from concept to
+        audience impact.
+      </p>
+      <p class="statement">
+        Across festival-focused projects, animation direction, and visual research in analogue photography, his
+        creative practice reflects mastery in contemporary content creation: original direction, technical range,
+        consistent execution, and a clear authorial identity.
+      </p>
     </section>
 
     <section class="section" style="margin-top: 0.9rem;">
       <h2>Animation Film Collection</h2>
-      <p class="statement">Ready for your upcoming YouTube links. Share each title, year, duration, synopsis, and festival status and I can wire them into live embedded cards instantly.</p>
+      <p class="statement">
+        This section is ready for your upcoming YouTube links. Once you share them, each card can be replaced
+        with embedded trailers, full films, or festival cuts.
+      </p>
+
+      <div class="festival-map" style="margin-top: 0.8rem;">
+        Ready for upload pack: share YouTube links, film duration, year, and 1-line synopsis for each title,
+        and this collection can be switched from placeholders to live embedded screenings in one update.
+      </div>
       <div class="collection-grid">
-        <article class="film-card"><h3>Animation Film 01</h3><p>Reserved for upcoming YouTube release and festival context.</p><span class="tag">Link coming soon</span></article>
-        <article class="film-card"><h3>Animation Film 02</h3><p>Reserved for synopsis, awards, and screening notes.</p><span class="tag">Link coming soon</span></article>
-        <article class="film-card"><h3>Animation Film 03</h3><p>Reserved for behind-the-scenes production breakdown.</p><span class="tag">Link coming soon</span></article>
+        <article class="film-card">
+          <h3>Animation Film 01</h3>
+          <p>Reserved for your first YouTube release link and short festival context.</p>
+          <span class="tag">Link coming soon</span>
+        </article>
+        <article class="film-card">
+          <h3>Animation Film 02</h3>
+          <p>Reserved for your second title with synopsis, awards, and screening notes.</p>
+          <span class="tag">Link coming soon</span>
+        </article>
+        <article class="film-card">
+          <h3>Animation Film 03</h3>
+          <p>Reserved for your third title and behind-the-scenes production details.</p>
+          <span class="tag">Link coming soon</span>
+        </article>
       </div>
     </section>
 
     <section class="section" style="margin-top: 0.9rem;">
       <h2>Rolleiflex Frames / Visual Notebook</h2>
+      <p class="statement">
+        These stills reference the texture language behind my motion work: contrast, grain, and human presence.
+      </p>
       <div class="photo-grid">
-        <figure><img src="custom/textures/rija_ny2026.jpg" alt="Night streets with cinematic neon tones" /><figcaption>Riga night cadence · scouting frame.</figcaption></figure>
-        <figure><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80" alt="Analogue camera close-up" /><figcaption>Medium format ritual · camera as collaborator.</figcaption></figure>
-        <figure><img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1000&q=80" alt="Creative studio with light and shadow" /><figcaption>Animation prep board · lighting test.</figcaption></figure>
+        <figure>
+          <img src="custom/textures/rija_ny2026.jpg" alt="Night streets with cinematic neon tones" />
+          <figcaption>Riga night cadence · scouting frame.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80" alt="Analogue camera close-up" />
+          <figcaption>Medium format ritual · camera as collaborator.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000&q=80" alt="Audience watching a film in a cinema hall" />
+          <figcaption>Festival room energy before premiere.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1000&q=80" alt="Creative studio with light and shadow" />
+          <figcaption>Animation prep board · lighting test.</figcaption>
+        </figure>
       </div>
     </section>
 
     <footer>
       <span>© 2026 Kartupelis TV · Filmmaker Portfolio</span>
-      <span>WebGL cinematic experiment with flying media and cursor distortion.</span>
+      <span>Built as a creative experiment in cinematic web storytelling.</span>
     </footer>
   </main>
 
