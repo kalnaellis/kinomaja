@@ -3,311 +3,587 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reinis Kalnaellis · Hybrid Animation Producer</title>
+  <title>Kartupelis TV · Filmmaker Portfolio</title>
   <style>
     :root {
-      --bg: #07040f;
-      --ink: #f6f1ff;
-      --muted: #bfb4d4;
-      --neon: #78f7ff;
-      --hot: #ff6a66;
-      --line: rgba(255,255,255,0.18);
-      --panel: rgba(14, 10, 26, 0.75);
+      --bg: #05030a;
+      --paper: #0f0b1a;
+      --panel: #171126;
+      --ink: #f8f5ff;
+      --muted: #cec5dd;
+      --neon: #00f0ff;
+      --ember: #ff6a3d;
+      --violet: #af71ff;
+      --line: rgba(255, 255, 255, 0.15);
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, system-ui, sans-serif; }
     body { overflow-x: hidden; }
 
-    .noise {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-      opacity: 0.12; mix-blend-mode: soft-light;
-    }
-
-    .aurora {
-      position: fixed; inset: -20%; pointer-events: none; z-index: 0;
+    body {
+      margin: 0;
+      font-family: "Inter", "Avenir Next", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
       background:
-        radial-gradient(circle at 15% 20%, rgba(120,247,255,0.18), transparent 36%),
-        radial-gradient(circle at 86% 8%, rgba(255,106,102,0.18), transparent 28%),
-        radial-gradient(circle at 55% 92%, rgba(164,112,255,0.2), transparent 33%);
-      filter: blur(8px);
+        radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.15), transparent 40%),
+        radial-gradient(circle at 90% 0%, rgba(255, 106, 61, 0.12), transparent 35%),
+        radial-gradient(circle at 50% 100%, rgba(175, 113, 255, 0.15), transparent 38%),
+        var(--bg);
     }
 
-    main { position: relative; z-index: 1; }
+    .grain {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0.12;
+      background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+      mix-blend-mode: soft-light;
+    }
+
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
 
     .hero {
-      min-height: 100vh;
-      display: grid;
-      align-items: center;
-      padding: clamp(1rem, 4vw, 3rem);
-      max-width: 1180px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .frame {
       border: 1px solid var(--line);
       border-radius: 24px;
-      padding: clamp(1rem, 3vw, 2.2rem);
-      background: var(--panel);
-      backdrop-filter: blur(6px);
+      padding: clamp(1.4rem, 3.6vw, 3rem);
+      background: linear-gradient(125deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
       position: relative;
       overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      right: -120px;
+      top: -120px;
+      background: radial-gradient(circle, rgba(0,240,255,0.45), transparent 68%);
+      filter: blur(2px);
     }
 
     .kicker {
       color: var(--neon);
       text-transform: uppercase;
-      letter-spacing: .18em;
-      font-size: .72rem;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      color: var(--neon);
       margin: 0;
+      font-size: 0.75rem;
     }
 
     h1 {
-      font-size: clamp(1.9rem, 7vw, 5rem);
-      line-height: .94;
-      margin: .5rem 0 0;
+      margin: 0.6rem 0 0;
+      font-size: clamp(2rem, 6vw, 4.3rem);
+      line-height: 0.95;
       text-transform: uppercase;
       max-width: 12ch;
     }
 
-    .type-line {
-      margin-top: .9rem;
-      font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
-      font-size: clamp(.95rem, 2.5vw, 1.25rem);
+    .lead {
+      max-width: 65ch;
+      margin: 1rem 0 0;
       color: var(--muted);
       min-height: 1.6em;
     }
 
-    .chips { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: 1rem; }
-    .chip { border: 1px solid var(--line); border-radius: 999px; padding: .28rem .72rem; font-size: .78rem; color: var(--muted); }
-
-    .floating-scene {
-      position: relative;
-      min-height: 120vh;
-      padding: 10vh 1rem 16vh;
-      max-width: 1280px;
-      margin: 0 auto;
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1.2rem;
     }
 
-    .float {
-      position: absolute;
-      width: min(340px, 44vw);
-      background: rgba(14,10,26,.82);
+    .chip {
       border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 20px 38px rgba(0,0,0,.4);
-      transform-style: preserve-3d;
-      will-change: transform;
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.03);
     }
 
-    .float img,
-    .float iframe { width: 100%; height: 190px; display: block; border: 0; object-fit: cover; }
-    .float p { margin: 0; padding: .55rem .65rem .75rem; font-size: .77rem; color: var(--muted); }
+    .grid {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 0.9rem;
+    }
 
-    .float-text {
-      position: sticky;
-      top: 14vh;
-      width: min(640px, 92vw);
-      margin: 0 auto;
+    .section {
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: var(--panel);
-      backdrop-filter: blur(8px);
-      padding: 1rem;
-      text-align: center;
+      background: var(--paper);
+      padding: clamp(1rem, 2.6vw, 1.5rem);
     }
 
-    .float-text h2 { margin: 0; font-size: clamp(1.1rem, 3.2vw, 2.2rem); text-transform: uppercase; }
-    .float-text .dynamic { margin-top: .5rem; color: var(--neon); font-family: "IBM Plex Mono", monospace; min-height: 1.5em; }
-
-    .minimal {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 2rem 1rem 4rem;
-      display: grid;
-      gap: .8rem;
+    h2 {
+      margin: 0;
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
     }
 
-    .line {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--panel);
-      padding: .8rem 1rem;
-      font-size: clamp(.92rem, 1.8vw, 1.08rem);
+    .statement {
+      margin-top: 0.7rem;
       color: var(--muted);
     }
 
-    .line strong { color: var(--ink); }
+    .timeline {
+      margin-top: 0.9rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .event {
+      border-left: 2px solid var(--violet);
+      padding-left: 0.7rem;
+    }
+
+    .event p {
+      margin: 0.15rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .label {
+      color: var(--ember);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+
+    .festival-map {
+      margin-top: 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(160deg, rgba(0,240,255,0.08), rgba(175,113,255,0.08));
+      padding: 0.75rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.7rem;
+      margin-top: 0.9rem;
+    }
+
+    figure {
+      margin: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    figure img {
+      display: block;
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      filter: saturate(1.15) contrast(1.05);
+    }
+
+    figcaption {
+      padding: 0.6rem;
+      font-size: 0.79rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .video-card {
+      margin-top: 0.9rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .collection-grid {
+      margin-top: 0.9rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .film-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 0.8rem;
+    }
+
+    .film-card h3 {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .film-card p {
+      margin: 0.45rem 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 0.6rem;
+      border: 1px dashed rgba(0, 240, 255, 0.6);
+      color: var(--neon);
+      border-radius: 999px;
+      padding: 0.18rem 0.55rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+    }
+
+    .quote {
+      margin-top: 1rem;
+      font-size: 1.05rem;
+      color: #efe8ff;
+      border-left: 3px solid var(--neon);
+      padding-left: 0.8rem;
+    }
+
+    .contact {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.4rem;
+      color: var(--muted);
+    }
+
+    a {
+      color: var(--neon);
+      text-decoration: none;
+    }
 
     footer {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 1rem 2.2rem;
+      margin: 1rem 0 1.4rem;
       color: var(--muted);
-      font-size: .82rem;
+      font-size: 0.85rem;
       display: flex;
       justify-content: space-between;
+      gap: 1rem;
       flex-wrap: wrap;
-      gap: .6rem;
     }
 
-    @media (max-width: 860px) {
-      .float { position: relative; width: 100%; inset: auto !important; margin-top: .8rem; }
-      .floating-scene { min-height: auto; }
-      .float-text { position: relative; top: auto; margin-top: .6rem; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="aurora" aria-hidden="true"></div>
-  <div class="noise" aria-hidden="true"></div>
-
-  <main>
+  <div class="grain" aria-hidden="true"></div>
+  <main class="wrap">
     <section class="hero">
-      <div class="frame">
-        <p class="kicker">Reinis Kalnaellis · Animation Film Producer</p>
-        <h1>Hybrid Pipeline / Festival Motion / Analogue Eye</h1>
-        <p class="type-line" data-airport='["ANIMATION PRODUCER","HYBRID PIPELINE DEVELOPER","ROLLEIFLEX PHOTOGRAPHER","FESTIVAL-DRIVEN STORY BUILDER"]'></p>
-        <div class="chips">
-          <span class="chip">animation direction</span>
-          <span class="chip">film production</span>
-          <span class="chip">festival circulation</span>
-          <span class="chip">analogue studies</span>
+      <p class="kicker">Director · Producer · Visual Alchemist</p>
+      <h1>Festival Fire. Animation Pulse. Analogue Soul.</h1>
+      <p class="lead">
+        I build cinema that moves between hand-crafted texture and modern momentum—traveling through
+        international film festivals, directing animation and live-action work, and keeping my eye honest
+        through analogue photography on a Rolleiflex medium format camera.
+      </p>
+      <div class="chips">
+        <span class="chip">Feature & short film production</span>
+        <span class="chip">Festival circulation & screenings</span>
+        <span class="chip">Animation direction</span>
+        <span class="chip">Rolleiflex medium format studies</span>
+        <span class="chip">Creative producing</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="section">
+        <h2>Creative Manifesto</h2>
+        <p class="statement">
+          My work sits where poetic documentary, kinetic fiction, and tactile animation intersect. I direct
+          projects with rigorous visual language, then produce them through to launch strategy—so every film
+          arrives with both emotional impact and festival-ready precision.
+        </p>
+        <p class="quote">
+          “I chase stories that feel alive in the frame: grain, breath, imperfection, movement. Cinema should
+          feel discovered, not manufactured.”
+        </p>
+
+        <div class="timeline">
+          <div class="event">
+            <span class="label">Direction & Development</span>
+            <p>Concept creation, scripting, visual treatment design, and format experimentation for art-house and branded narratives.</p>
+          </div>
+          <div class="event">
+            <span class="label">Festival Circuit</span>
+            <p>Ongoing screenings, networking and project pitching across international festival environments.</p>
+          </div>
+          <div class="event">
+            <span class="label">Animation & Film Production</span>
+            <p>Hybrid pipelines blending animation, live footage, and post-production craft to build distinctive storytelling worlds.</p>
+          </div>
+          <div class="event">
+            <span class="label">Analogue Practice</span>
+            <p>Rolleiflex medium format photography for portrait studies, location research, and visual moodboards.</p>
+          </div>
         </div>
+      </section>
+
+      <section class="section">
+        <h2>Festival Presence</h2>
+        <div class="festival-map">
+          Current mode: traveling filmmaker. From screenings to panel talks, I treat every festival stop as a
+          live laboratory—testing ideas, connecting collaborators, and developing the next slate while this one
+          is still on screen.
+        </div>
+        <div class="video-card">
+          <iframe
+            class="video"
+            src="https://www.youtube.com/embed/ScMzIvxBSi4"
+            title="Filmmaker showreel"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="contact">
+          <strong>Bookings & collaborations</strong>
+          <span><a href="mailto:hello@kartupelis.tv">hello@kartupelis.tv</a></span>
+          <span><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a> · <a href="https://vimeo.com" target="_blank" rel="noopener noreferrer">Vimeo</a></span>
+        </div>
+      </section>
+    </div>
+
+    <section class="section" style="margin-top: 0.9rem;">
+      <h2>About Reinis Kalnaellis</h2>
+      <p class="statement">
+        Reinis Kalnaellis is a filmmaker and animation creator recognized for combining cinematic emotion with
+        disciplined visual craftsmanship. His voice in content creation stands out through strong story rhythm,
+        carefully shaped atmosphere, and a producer's understanding of how to bring an idea from concept to
+        audience impact.
+      </p>
+      <p class="statement">
+        Across festival-focused projects, animation direction, and visual research in analogue photography, his
+        creative practice reflects mastery in contemporary content creation: original direction, technical range,
+        consistent execution, and a clear authorial identity.
+      </p>
+    </section>
+
+    <section class="section" style="margin-top: 0.9rem;">
+      <h2>Animation Film Collection</h2>
+      <p class="statement">
+        This section is ready for your upcoming YouTube links. Once you share them, each card can be replaced
+        with embedded trailers, full films, or festival cuts.
+      </p>
+
+      <div class="festival-map" style="margin-top: 0.8rem;">
+        Ready for upload pack: share YouTube links, film duration, year, and 1-line synopsis for each title,
+        and this collection can be switched from placeholders to live embedded screenings in one update.
+      </div>
+      <div class="collection-grid">
+        <article class="film-card">
+          <h3>Animation Film 01</h3>
+          <p>Reserved for your first YouTube release link and short festival context.</p>
+          <span class="tag">Link coming soon</span>
+        </article>
+        <article class="film-card">
+          <h3>Animation Film 02</h3>
+          <p>Reserved for your second title with synopsis, awards, and screening notes.</p>
+          <span class="tag">Link coming soon</span>
+        </article>
+        <article class="film-card">
+          <h3>Animation Film 03</h3>
+          <p>Reserved for your third title and behind-the-scenes production details.</p>
+          <span class="tag">Link coming soon</span>
+        </article>
       </div>
     </section>
 
-    <section class="floating-scene" id="scene">
-      <article class="float" style="left:3%; top:16vh;">
-        <iframe loading="lazy" src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Showreel"></iframe>
-        <p>showreel fragment / motion architecture</p>
-      </article>
-
-      <article class="float" style="left:58%; top:7vh;">
-        <img src="custom/textures/rija_ny2026.jpg" alt="Riga scouting frame" />
-        <p>rolleiflex mood / riga night scan</p>
-      </article>
-
-      <article class="float" style="left:50%; top:55vh;">
-        <iframe loading="lazy" src="https://www.youtube.com/embed/xzB4mAq2f5Q" title="Animation piece"></iframe>
-        <p>animation pipeline / live + digital hybrid</p>
-      </article>
-
-      <article class="float" style="left:10%; top:70vh;">
-        <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000&q=80" alt="Audience in cinema" />
-        <p>festival room energy / premiere pulse</p>
-      </article>
-
-      <div class="float-text">
-        <h2>Floating Text Engine</h2>
-        <div class="dynamic" data-airport='["STORY / LIGHT / TEXTURE","FRAME / RHYTHM / SOUND","PRODUCE / DIRECT / DELIVER","FILM + ANIMATION + ANALOGUE"]'></div>
+    <section class="section" style="margin-top: 0.9rem;">
+      <h2>Rolleiflex Frames / Visual Notebook</h2>
+      <p class="statement">
+        These stills reference the texture language behind my motion work: contrast, grain, and human presence.
+      </p>
+      <div class="photo-grid">
+        <figure>
+          <img src="custom/textures/rija_ny2026.jpg" alt="Night streets with cinematic neon tones" />
+          <figcaption>Riga night cadence · scouting frame.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80" alt="Analogue camera close-up" />
+          <figcaption>Medium format ritual · camera as collaborator.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=1000&q=80" alt="Audience watching a film in a cinema hall" />
+          <figcaption>Festival room energy before premiere.</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1000&q=80" alt="Creative studio with light and shadow" />
+          <figcaption>Animation prep board · lighting test.</figcaption>
+        </figure>
       </div>
-    </section>
-
-    <section class="minimal">
-      <div class="line"><strong>About:</strong> Reinis Kalnaellis builds authored films through a hybrid animation-production pipeline and analogue photographic research.</div>
-      <div class="line"><strong>Now:</strong> developing animation-led projects for festival circulation and international collaboration.</div>
-      <div class="line"><strong>Contact:</strong> hello@kartupelis.tv · Instagram · Vimeo</div>
     </section>
 
     <footer>
-      <span>© 2026 Reinis Kalnaellis</span>
-      <span>Interactive portfolio / floating motion edition</span>
+      <span>© 2026 Kartupelis TV · Filmmaker Portfolio</span>
+      <span>Built as a creative experiment in cinematic web storytelling.</span>
     </footer>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script>
     (() => {
-      const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+- ";
+      const hasThree = typeof window.THREE !== 'undefined';
+      const hasGsap = typeof window.gsap !== 'undefined';
+      const cursor = document.getElementById('cursor-distort');
+      const stage = document.getElementById('floating-stage');
+      const orbits = Array.from(document.querySelectorAll('.media-orbit'));
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      function airportSwitch(el, words, hold = 1400) {
-        let index = 0;
-        let current = ''.padEnd(words[0].length, ' ');
-
-        const scrambleTo = (target) => {
-          const max = Math.max(current.length, target.length);
-          const from = current.padEnd(max, ' ');
-          const to = target.padEnd(max, ' ');
-          let frame = 0;
-          const total = 20;
-
-          const tick = () => {
-            frame += 1;
-            let out = '';
-            for (let i = 0; i < max; i++) {
-              const settlePoint = Math.floor((i / max) * total * 0.9);
-              if (frame > settlePoint) {
-                out += to[i];
-              } else {
-                out += CHARS[Math.floor(Math.random() * CHARS.length)];
-              }
-            }
-            el.textContent = out;
-            if (frame < total) {
-              requestAnimationFrame(tick);
-            } else {
-              current = target;
-              setTimeout(() => {
-                index = (index + 1) % words.length;
-                scrambleTo(words[index]);
-              }, hold);
-            }
-          };
-          tick();
-        };
-
-        scrambleTo(words[0]);
+      if (!hasThree || !hasGsap || prefersReducedMotion) {
+        if (prefersReducedMotion) {
+          document.body.classList.add('reduced-motion');
+        }
+        if (!hasThree) {
+          const canvas = document.getElementById('webgl-noise');
+          if (canvas) canvas.style.display = 'none';
+        }
+        window.addEventListener('pointermove', (e) => {
+          cursor.style.left = `${e.clientX}px`;
+          cursor.style.top = `${e.clientY}px`;
+        });
+        return;
       }
 
-      document.querySelectorAll('[data-airport]').forEach((el) => {
-        try {
-          const words = JSON.parse(el.dataset.airport);
-          if (Array.isArray(words) && words.length) airportSwitch(el, words);
-        } catch {}
+      const canvas = document.getElementById('webgl-noise');
+      let renderer;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+      } catch (error) {
+        canvas.style.display = 'none';
+        return;
+      }
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+      const uniforms = {
+        uTime: { value: 0 },
+        uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+      };
+
+      const material = new THREE.ShaderMaterial({
+        transparent: true,
+        uniforms,
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          precision highp float;
+          varying vec2 vUv;
+          uniform float uTime;
+          uniform vec2 uMouse;
+
+          float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+          float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            vec2 u = f * f * (3.0 - 2.0 * f);
+            return mix(mix(hash(i + vec2(0.,0.)), hash(i + vec2(1.,0.)), u.x),
+                       mix(hash(i + vec2(0.,1.)), hash(i + vec2(1.,1.)), u.x), u.y);
+          }
+
+          void main() {
+            vec2 uv = vUv;
+            vec2 m = uMouse;
+            float dist = distance(uv, m);
+            float ripple = sin(30.0 * dist - uTime * 3.2) * exp(-4.5 * dist);
+            vec2 d = uv - m;
+            float dLen = max(length(d), 0.0001);
+            uv += (d / dLen) * ripple * 0.012;
+
+            float n1 = noise(uv * 7.0 + uTime * 0.08);
+            float n2 = noise(uv * 28.0 - uTime * 0.2);
+            float scratch = smoothstep(0.88, 1.0, noise(vec2(uv.y * 260.0, uTime * 0.7)));
+
+            vec3 base = mix(vec3(0.02, 0.01, 0.08), vec3(0.02, 0.08, 0.12), n1);
+            base += vec3(0.18, 0.08, 0.22) * n2 * 0.35;
+            base += vec3(0.4, 0.4, 0.45) * scratch * 0.12;
+
+            float vignette = smoothstep(1.1, 0.15, distance(uv, vec2(0.5)));
+            base *= vignette;
+            gl_FragColor = vec4(base, 0.95);
+          }
+        `
       });
 
-      if (window.gsap && window.ScrollTrigger) {
-        gsap.registerPlugin(ScrollTrigger);
+      scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
 
-        gsap.utils.toArray('.float').forEach((card, i) => {
-          gsap.to(card, {
-            y: i % 2 ? -120 : 130,
-            x: i % 2 ? -70 : 80,
-            rotate: i % 2 ? -8 : 8,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: '#scene',
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 1.2
-            }
-          });
+      const resize = () => renderer.setSize(window.innerWidth, window.innerHeight, false);
+      resize();
+      window.addEventListener('resize', resize);
 
-          gsap.to(card, {
-            y: '+=18',
-            repeat: -1,
-            yoyo: true,
-            duration: 2.8 + i,
-            ease: 'sine.inOut'
+      const mouse = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
+      window.addEventListener('pointermove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        uniforms.uMouse.value.set(mouse.x / window.innerWidth, 1.0 - (mouse.y / window.innerHeight));
+        gsap.to(cursor, { x: mouse.x, y: mouse.y, duration: 0.22, ease: 'power2.out' });
+      });
+
+      orbits.forEach((el, i) => {
+        gsap.to(el, {
+          x: (i % 2 ? -130 : 130),
+          y: (i % 3 ? 45 : -45),
+          rotation: (i % 2 ? -8 : 8),
+          duration: 6 + i * 1.5,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut'
+        });
+      });
+
+      if (stage) {
+        stage.addEventListener('pointermove', (e) => {
+          const r = stage.getBoundingClientRect();
+          const rx = ((e.clientY - r.top) / r.height - 0.5) * 8;
+          const ry = ((e.clientX - r.left) / r.width - 0.5) * -10;
+          gsap.to(orbits, {
+            rotationX: rx,
+            rotationY: ry,
+            transformPerspective: 800,
+            stagger: 0.03,
+            duration: 0.4,
+            ease: 'power2.out'
           });
         });
 
-        gsap.to('.float-text', {
-          y: -80,
-          opacity: 1,
-          scrollTrigger: {
-            trigger: '#scene',
-            start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 1
-          }
+        stage.addEventListener('pointerleave', () => {
+          gsap.to(orbits, { rotationX: 0, rotationY: 0, duration: 0.5, ease: 'power2.out' });
         });
       }
+
+      const tick = (t) => {
+        uniforms.uTime.value = t * 0.001;
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
     })();
   </script>
 </body>
