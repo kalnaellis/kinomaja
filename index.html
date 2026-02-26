@@ -109,6 +109,12 @@
       text-wrap: balance;
     }
 
+    h1 .reveal-char,
+    h2 .reveal-char,
+    h3 .reveal-char {
+      transition-duration: 0.4s;
+    }
+
     .lead {
       margin: 0;
       max-width: 62ch;
@@ -137,6 +143,42 @@
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap: 1rem;
+    }
+
+    .mode4 {
+      margin-top: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .mode4-intro {
+      padding: 1.2rem;
+    }
+
+    .mode-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .mode-blog {
+      padding: 1.2rem;
+      min-height: 300px;
+      display: grid;
+      align-content: start;
+      gap: 0.75rem;
+    }
+
+    .mode-blog:nth-child(even) {
+      transform: translateY(2.8rem);
+    }
+
+    .mode-blog h3 {
+      margin: 0;
+      font-size: clamp(1.6rem, 4vw, 3.1rem);
+      line-height: 0.92;
+      text-transform: uppercase;
+      max-width: 12ch;
     }
 
     .column { padding: 1.2rem; }
@@ -249,6 +291,8 @@
 
     @media (max-width: 920px) {
       section.story { grid-template-columns: 1fr; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .mode-blog:nth-child(even) { transform: none; }
       .hero { min-height: 80vh; }
     }
   </style>
@@ -260,10 +304,10 @@
   <main>
     <header class="hero panel">
       <p class="eyebrow">Kartupelis TV · WebGL Story Stage</p>
-      <h1 data-reveal>Sharp Edge Cinema For Magical Character Worlds</h1>
+      <h1 data-reveal data-reveal-start="0.57" data-reveal-end="0.06">Sharp Edge Cinema For Magical Character Worlds</h1>
       <p class="lead" data-reveal>
-        A bold scroll-driven canvas where every sentence breathes alive, every letter appears with intention,
-        and every character line reflects the pulse of your filmmaking identity.
+        A deep, cinematic scroll experience where legendary voices enter in stages, giant titles wait for the
+        perfect moment, and WebGL light moves like memory through every paragraph.
       </p>
       <div class="stats">
         <span class="stat">Scroll reactive typography</span>
@@ -275,24 +319,24 @@
 
     <section class="story">
       <article class="column panel">
-        <h2 data-reveal>The Reflecting Characters</h2>
+        <h2 data-reveal data-reveal-start="0.68" data-reveal-end="0.15">The Reflecting Characters</h2>
         <p class="note" data-reveal>
-          Characters are treated like constellations: their words are not static captions but luminous signals.
-          As the audience scrolls, each letter reveals itself in sequence, forming emotional rhythm.
+          Characters now speak with the cadence of major cinema: quotes from movie stars, directors, and producers
+          are arranged as emotional waypoints. The typography appears later on scroll, giving each line a grand entrance.
         </p>
 
         <div class="characters">
           <div class="character" data-reveal>
-            <strong>THE GUIDE</strong>
-            <p>"I map memory through moving grain and electric silence."</p>
+            <strong>THE STAR</strong>
+            <p>"If you can dream it, you can do it." — Walt Disney</p>
           </div>
           <div class="character" data-reveal>
-            <strong>THE FIGHTER</strong>
-            <p>"Every cut is a blade, every frame is a promise kept."</p>
+            <strong>THE DIRECTOR</strong>
+            <p>"The most honest form of filmmaking is to make a film for yourself." — Peter Jackson</p>
           </div>
           <div class="character" data-reveal>
-            <strong>THE DREAMER</strong>
-            <p>"I let impossible colors leak into reality."</p>
+            <strong>THE PRODUCER</strong>
+            <p>"Luck is what you have left over after you give 100 percent." — Langston Coleman</p>
           </div>
         </div>
 
@@ -303,18 +347,51 @@
       </article>
 
       <aside class="column panel">
-        <h2 data-reveal>Dynamic Scroll Reveal</h2>
+        <h2 data-reveal data-reveal-start="0.7" data-reveal-end="0.17">Dynamic Scroll Reveal</h2>
         <p class="note" data-reveal>
-          This side acts like a spoken spell. Move down and each line ignites letter by letter,
-          spotlighting key words in a cinematic wave.
+          The scene unfolds like a keynote in motion: headers hold back until the reader dives deeper,
+          then spark into view with glowing letter trails and interleaved rhythm.
         </p>
 
         <div class="scroll-track">
-          <p class="quote-line" data-reveal>"No dialogue is ordinary when every glyph carries light."</p>
-          <p class="quote-line" data-reveal>"No hero is flat when motion reveals hidden texture."</p>
-          <p class="quote-line" data-reveal>"No ending fades when the page itself performs."</p>
+          <p class="quote-line" data-reveal>"Great stories happen to those who can tell them." — Ira Glass</p>
+          <p class="quote-line" data-reveal>"Movies touch our hearts and awaken our vision." — Martin Scorsese</p>
+          <p class="quote-line" data-reveal>"Success is not final, failure is not fatal: it is the courage to continue that counts." — Winston Churchill</p>
         </div>
       </aside>
+    </section>
+
+    <section class="mode4">
+      <article class="mode4-intro panel">
+        <h2 data-reveal data-reveal-start="0.74" data-reveal-end="0.21">Mode 4 · Interleaved Blog Headers</h2>
+        <p class="note" data-reveal>
+          This new mode introduces four bold blog chapters. Each oversized title is delayed so it lands later in
+          the scroll journey, creating a dramatic staggered cadence across the page.
+        </p>
+      </article>
+
+      <div class="mode-grid">
+        <article class="mode-blog panel">
+          <p class="eyebrow">Blog 01 · Star Voice</p>
+          <h3 data-reveal data-reveal-start="0.8" data-reveal-end="0.28">Act With Fire, Speak With Light</h3>
+          <p class="note" data-reveal>"The best way to predict the future is to create it." — often shared by cinematic producers shaping new eras.</p>
+        </article>
+        <article class="mode-blog panel">
+          <p class="eyebrow">Blog 02 · Director Lens</p>
+          <h3 data-reveal data-reveal-start="0.82" data-reveal-end="0.3">Direct Every Frame Like A Promise</h3>
+          <p class="note" data-reveal>"Cinema is a matter of what's in the frame and what's out." — Martin Scorsese</p>
+        </article>
+        <article class="mode-blog panel">
+          <p class="eyebrow">Blog 03 · Producer Pulse</p>
+          <h3 data-reveal data-reveal-start="0.8" data-reveal-end="0.29">Produce Courage Before You Produce Scale</h3>
+          <p class="note" data-reveal>"The secret to getting ahead is getting started." — Mark Twain, embraced by generations of filmmakers.</p>
+        </article>
+        <article class="mode-blog panel">
+          <p class="eyebrow">Blog 04 · Legacy Craft</p>
+          <h3 data-reveal data-reveal-start="0.84" data-reveal-end="0.31">Build Beauty Through WebGL Motion</h3>
+          <p class="note" data-reveal>"People will forget what you said, people will never forget how you made them feel." — Maya Angelou</p>
+        </article>
+      </div>
     </section>
 
     <footer class="panel">
@@ -353,8 +430,8 @@
         const vh = window.innerHeight;
         revealBlocks.forEach((block) => {
           const rect = block.getBoundingClientRect();
-          const start = vh * 0.85;
-          const end = vh * 0.2;
+          const start = vh * Number(block.dataset.revealStart || 0.85);
+          const end = vh * Number(block.dataset.revealEnd || 0.2);
           const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
           const chars = block.querySelectorAll('.reveal-char');
           const litCount = progress * chars.length;
